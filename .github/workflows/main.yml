@@ -21,6 +21,7 @@ jobs:
       run: |
         git config --global user.email "aguretsvlad@gmail.com"
         git config --global user.name "vladagurets"
+        echo ${{ secrets.MY_DEPLOY_KEY }}
         git remote set-url origin https://${{ secrets.MY_DEPLOY_KEY }}@github.com/vladagurets/sort-visualizer.git
         yarn build
         yarn deploy
