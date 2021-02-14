@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store'
 import { getScreenInfo, generateRandomArray } from 'src/utils.js'
+import { SORT_TYPE_OPTS } from 'src/constants.js'
 
 const DEFAULT_ELEMENTS_COUNT = 50
 const DEFAULT_MAX_ELEMENT_VALUE = 150
@@ -15,7 +16,7 @@ export const gameSettings = writable({
   elementsCount: DEFAULT_ELEMENTS_COUNT,
   maxElementValue: DEFAULT_MAX_ELEMENT_VALUE,
   sortableArray: null,
-  sortType: null,
+  sortType: SORT_TYPE_OPTS[0].value,
   stepIndex: null
 })
 

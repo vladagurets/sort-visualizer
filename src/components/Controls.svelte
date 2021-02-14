@@ -4,6 +4,11 @@
   import { generateRandomArray } from 'src/utils.js'
   import SortableArray from 'src/helpers/SortableArray.js'
 
+  // TODO:
+  // 1) Colors for muated bars
+  // 2) Play sound on each iteration
+  // 3) Add other algorithms
+
   let isPause = false
 
   $: ({
