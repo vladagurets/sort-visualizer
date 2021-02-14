@@ -1,5 +1,3 @@
-import SortableArray from 'src/helpers/SortableArray.js'
-
 export function getScreenInfo() {
   return {
     width: window.innerWidth,

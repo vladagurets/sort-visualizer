@@ -3,6 +3,10 @@
 	--bg-color: #fff8f4;
 }
 
+html * {
+	box-sizing: border-box;
+}
+
 html, body {
 	position: relative;
 	width: 100%;
