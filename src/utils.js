@@ -1,4 +1,4 @@
-import SortHelper from 'src/helpers/SortHelper.js'
+import SortableArray from 'src/helpers/SortableArray.js'
 
 export function getScreenInfo() {
   return {
@@ -27,14 +27,4 @@ function getRandomInt (min, max) {
   min = Math.ceil(min)
   max = Math.floor(max)
   return Math.floor(Math.random() * (max - min) + min)
-}
-
-export function lazySort ({
-  arrayStore,
-  array,
-  sortType,
-  iterationDelay
-}) {
-  const sortHelper = new SortHelper(arrayStore, array, sortType, iterationDelay)
-  sortHelper.sort()
 }

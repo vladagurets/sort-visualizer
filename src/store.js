@@ -9,9 +9,13 @@ export const screenInfo = writable(getScreenInfo(DEFAULT_ELEMENTS_COUNT, DEFAULT
 
 export const canvas = writable(null)
 
-export const array = writable(generateRandomArray())
-export const sortType = writable(null)
-export const elementsCount = writable(DEFAULT_ELEMENTS_COUNT)
-export const maxElementValue = writable(DEFAULT_MAX_ELEMENT_VALUE)
-export const drawDelay = writable(DEFAULT_DRAW_DELAY)
+export const dislayingArray = writable(generateRandomArray())
+export const gameSettings = writable({
+  drawDelay: DEFAULT_DRAW_DELAY,
+  elementsCount: DEFAULT_ELEMENTS_COUNT,
+  maxElementValue: DEFAULT_MAX_ELEMENT_VALUE,
+  sortableArray: null,
+  sortType: null,
+  stepIndex: null
+})
 

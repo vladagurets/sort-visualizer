@@ -1,37 +1,74 @@
 <script>
   import { SORT_TYPE_OPTS } from 'src/constants.js'
-  import { array, sortType, elementsCount, maxElementValue, drawDelay } from 'src/store.js'
-  import { lazySort, generateRandomArray } from 'src/utils.js'
+  import { dislayingArray, gameSettings } from 'src/store.js'
+  import { generateRandomArray } from 'src/utils.js'
+  import SortableArray from 'src/helpers/SortableArray.js'
+
+  $: ({
+    elementsCount,
+    maxElementValue,
+    maxElementValue,
+    drawDelay,
+    sortType,
+    stepIndex,
+    sortableArray
+  } = $gameSettings)
 
   function onRun () {
-    // Pause, continue
-    lazySort({
-      array: $array,
-      iterationDelay: $drawDelay,
-      arrayStore: array,
-      sortType: $sortType
-    })
+    const sortableArray = new SortableArray($dislayingArray, sortType)
+
+    updateSettings('sortableArray', sortableArray)
+    updateSettings('stepIndex', 0)
+
+    setTimeout(() => {
+      updateDisplay()
+    }, 0)
   }
 
   function onRefresh () {
-    array.set(generateRandomArray($elementsCount, $maxElementValue))
+    dislayingArray.set(generateRandomArray(elementsCount, maxElementValue))
   }
 
   function onCountChange ({ target: { valueAsNumber }}) {
-    elementsCount.set(valueAsNumber)
+    updateSettings('elementsCount', valueAsNumber)
   }
 
   function onMaxChange ({ target: { valueAsNumber }}) {
-    maxElementValue.set(valueAsNumber)
+    updateSettings('maxElementValue', valueAsNumber)
   }
 
   function onDelayChange ({ target: { valueAsNumber }}) {
-    drawDelay.set(valueAsNumber)
+    updateSettings('drawDelay', valueAsNumber)
   }
 
   function onSelect ({ target: { value }}) {
-    sortType.set(value)
+    updateSettings('sortType', value)
   }
+
+  function updateSettings (field, value) {
+    gameSettings.set({
+      ...$gameSettings,
+      [field]: value
+    })
+  }
+
+  function updateDisplay () {
+    setTimeout(() => {
+      if (stepIndex < sortableArray.history.length) {
+        // Get new step from history ans save it to store
+        const array = sortableArray.history[stepIndex]
+        dislayingArray.set(array)
+
+        gameSettings.set({
+          ...$gameSettings,
+          stepIndex: stepIndex + 1
+        })
+
+        updateDisplay()
+      }
+    }, drawDelay);
+  }
+
 </script>
 
 <style>
@@ -42,13 +79,14 @@
     cursor: pointer;
     flex: 1;
     margin: 0 5px;
-    min-width: 150px;
+    min-width: 145px;
   }
 
   select, input, label {
     padding: 5px;
     margin: 1px 5px;
     flex: 1;
+    min-width: 145px;
   }
 
   .flex {
@@ -72,7 +110,7 @@
 
 <div>
   <div class="flex">
-    <button disabled={!$sortType} on:click={onRun}>
+    <button disabled={!$gameSettings.sortType} on:click={onRun}>
       Sort
     </button>
     <button on:click={onRefresh}>
@@ -82,9 +120,9 @@
   <br />
   <div class="flex flex-column">
     <div class="flex form-item">
-      <label for="method">Algorythm:</label>
+      <label for="method">Algorithm:</label>
        <!-- svelte-ignore a11y-no-onchange -->
-      <select name='method' on:change={onSelect} value={$sortType}>
+      <select name='method' on:change={onSelect} value={$gameSettings.sortType}>
         <option value="">-</option>
         {#each SORT_TYPE_OPTS as opt}
         <option value={opt.value}>{opt.label}</option>
@@ -93,15 +131,15 @@
     </div>
     <div class="flex form-item">
       <label for="count">Elements:</label>
-      <input name="count" type="number" min="10" value={$elementsCount} on:change={onCountChange}>
+      <input name="count" type="number" min="10" value={$gameSettings.elementsCount} on:change={onCountChange}>
     </div>
     <div class="flex form-item">
       <label for="maxValue">Max value:</label>
-      <input name="maxValue" type="number" min="10" value={$maxElementValue} on:change={onMaxChange}>
+      <input name="maxValue" type="number" min="10" value={$gameSettings.maxElementValue} on:change={onMaxChange}>
     </div>
     <div class="flex form-item">
       <label for="delay">Delay:</label>
-      <input name="delay" type="range" min="100" max="2000" value={$drawDelay} on:change={onDelayChange}>
+      <input name="delay" type="range" min="100" max="1000" value={$gameSettings.drawDelay} on:change={onDelayChange}>
     </div>
   </div>
 </div>
