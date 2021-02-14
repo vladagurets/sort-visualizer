@@ -3,10 +3,12 @@
   import {
     canvas as canvasStore,
     dislayingArray,
-    screenInfo
+    screenInfo,
+    gameSettings
   } from 'src/store.js';
   import BarChart from 'src/helpers/BarChart.js'
   import { BASE_CHART_OPTS } from 'src/constants.js'
+  import { getYAxisStep } from 'src/utils.js'
 
   let canvasRef;
 
@@ -21,6 +23,7 @@
 
     const chart = new BarChart({
       ...BASE_CHART_OPTS,
+      gridScale: getYAxisStep($gameSettings.maxElementValue, 5),
       canvas: $canvasStore,
       data: items
     })

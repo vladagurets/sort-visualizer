@@ -23,6 +23,11 @@ export function generateRandomArray (size = 50, max = 150) {
   return new Array(size).fill().map(() => getRandomInt(1, max))
 }
 
+export function getYAxisStep (max, rowsCount) {
+  const stepSize = parseInt((max / rowsCount).toFixed(0))
+  return Math.ceil(stepSize / 10) * 10
+}
+
 function getRandomInt (min, max) {
   min = Math.ceil(min)
   max = Math.floor(max)

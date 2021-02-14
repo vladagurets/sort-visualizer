@@ -4,6 +4,8 @@
   import { generateRandomArray } from 'src/utils.js'
   import SortableArray from 'src/helpers/SortableArray.js'
 
+  let isPause = false
+
   $: ({
     elementsCount,
     maxElementValue,
@@ -25,7 +27,21 @@
     }, 0)
   }
 
+  function onTogglePause () {
+    isPause = !isPause
+  }
+
+  function onContinueRun () {
+    onTogglePause()
+    setTimeout(() => {
+      updateDisplay()
+    }, 0)
+  }
+
   function onRefresh () {
+    isPause = false
+    updateSettings('sortableArray', null)
+    updateSettings('stepIndex', null)
     dislayingArray.set(generateRandomArray(elementsCount, maxElementValue))
   }
 
@@ -53,8 +69,10 @@
   }
 
   function updateDisplay () {
+    if (isPause) return
+
     setTimeout(() => {
-      if (stepIndex < sortableArray.history.length) {
+      if (sortableArray && stepIndex < sortableArray.history.length) {
         // Get new step from history ans save it to store
         const array = sortableArray.history[stepIndex]
         dislayingArray.set(array)
@@ -110,9 +128,19 @@
 
 <div>
   <div class="flex">
-    <button disabled={!$gameSettings.sortType} on:click={onRun}>
-      Sort
-    </button>
+    {#if stepIndex == null}
+      <button disabled={!$gameSettings.sortType} on:click={onRun}>
+        Sort
+      </button>
+    {:else if stepIndex != null && !isPause}
+      <button on:click={onTogglePause}>
+        Pause
+      </button>
+    {:else}
+      <button on:click={onContinueRun}>
+        Continue
+      </button>
+    {/if}
     <button on:click={onRefresh}>
       Refresh array
     </button>
