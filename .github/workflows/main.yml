@@ -26,7 +26,7 @@ jobs:
         git remote set-url origin https://${{ secrets.MY_DEPLOY_KEY }}@github.com/vladagurets/sort-visualizer.git
         yarn build
         echo 1
-        echo $MY_DEPLOY_KEY
+        echo ${#MY_DEPLOY_KEY}
         echo 2
         echo 2
         echo 2
