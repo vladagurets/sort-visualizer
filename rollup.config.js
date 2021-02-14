@@ -40,7 +40,7 @@ export default {
 	plugins: [
 		alias({
       entries: [
-        { find: 'components', replacement: './src/componnents' }
+				{ find: 'src', replacement: './src' }
       ]
     }),
 		svelte({
