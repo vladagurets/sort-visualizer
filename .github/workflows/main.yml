@@ -26,6 +26,8 @@ jobs:
         echo 1
         echo ${{ secrets.MY_DEPLOY_KEY }}
         echo ${{ secrets }}
+        echo ${{ MY_DEPLOY_KEY }}
+        echo $MY_DEPLOY_KEY
         echo 2
         echo 2
         echo 2
