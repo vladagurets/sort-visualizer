@@ -17,6 +17,7 @@ export const gameSettings = writable({
   maxElementValue: DEFAULT_MAX_ELEMENT_VALUE,
   sortableArray: null,
   sortType: SORT_TYPE_OPTS[0].value,
-  stepIndex: null
+  stepIndex: null,
+  isPause: false
 })
 

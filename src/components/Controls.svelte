@@ -8,8 +8,6 @@
   // 2) Play sound on each iteration
   // 3) Add other algorithms
 
-  let isPause = false
-
   $: ({
     elementsCount,
     maxElementValue,
@@ -17,7 +15,8 @@
     drawDelay,
     sortType,
     stepIndex,
-    sortableArray
+    sortableArray,
+    isPause
   } = $gameSettings)
 
   function onRun () {
@@ -32,7 +31,7 @@
   }
 
   function onTogglePause () {
-    isPause = !isPause
+    updateSettings('isPause', !isPause)
   }
 
   function onContinueRun () {
@@ -43,7 +42,7 @@
   }
 
   function onRefresh () {
-    isPause = false
+    updateSettings('isPause', false)
     updateSettings('sortableArray', null)
     updateSettings('stepIndex', null)
     dislayingArray.set(generateRandomArray(elementsCount, maxElementValue))
@@ -98,16 +97,17 @@
     padding: 0 1rem;
     font-weight: bold;
     cursor: pointer;
-    flex: 1;
     margin: 0 5px;
-    min-width: 145px;
   }
 
   select, input, label {
     padding: 5px;
     margin: 1px 5px;
+  }
+
+  select, input, label, button {
     flex: 1;
-    min-width: 145px;
+    min-width: 120px;
   }
 
   .flex {
@@ -145,7 +145,7 @@
       </button>
     {/if}
     <button on:click={onRefresh}>
-      Refresh array
+      Reset
     </button>
   </div>
   <br />
