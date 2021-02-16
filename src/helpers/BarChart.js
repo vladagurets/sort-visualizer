@@ -13,27 +13,29 @@ export default class BarChart {
 
     const canvasActualHeight = this.canvas.height - this.options.padding * 2
     const canvasActualWidth = this.canvas.width - this.options.padding * 2
+    
+    if (this.canvas.height >= 300) {
+      //drawing the grid lines
+      let gridValue = 0
+      while (gridValue <= maxValue){
+          const gridY = canvasActualHeight * (1 - gridValue / maxValue) + this.options.padding
+          this.drawLine(
+              0,
+              gridY,
+              this.canvas.width,
+              gridY,
+              this.colors.grid
+          );
+          
+          //writing grid markers
+          this.ctx.save()
+          this.ctx.fillStyle = this.colors.grid
+          this.ctx.font = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif'
+          this.ctx.fillText(gridValue, 0, gridY - 2)
+          this.ctx.restore()
 
-    //drawing the grid lines
-    let gridValue = 0
-    while (gridValue <= maxValue){
-        const gridY = canvasActualHeight * (1 - gridValue / maxValue) + this.options.padding
-        this.drawLine(
-            0,
-            gridY,
-            this.canvas.width,
-            gridY,
-            this.colors.grid
-        );
-         
-        //writing grid markers
-        this.ctx.save()
-        this.ctx.fillStyle = this.colors.grid
-        this.ctx.font = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif'
-        this.ctx.fillText(gridValue, 0, gridY - 2)
-        this.ctx.restore()
-
-        gridValue += this.options.gridScale
+          gridValue += this.options.gridScale
+      }
     }
 
     //drawing the bars

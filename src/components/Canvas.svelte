@@ -37,11 +37,10 @@
     // Draw initial array
     drawCanvas($dislayingArray)
   })
-
 </script>
 
 <canvas
   width={$screenInfo.width * 0.8}
-	height={400}
+	height={$screenInfo.height * 0.4}
   bind:this={canvasRef}
 />

@@ -95,7 +95,7 @@
 
 <style>
   button {
-    padding: .5rem 1rem;
+    padding: 0 1rem;
     font-weight: bold;
     cursor: pointer;
     flex: 1;
@@ -112,7 +112,7 @@
 
   .flex {
     display: flex;
-    margin-left: -5px;
+    margin-left: -2.5px;
   }
 
   .form-item {
