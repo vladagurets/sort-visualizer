@@ -5,7 +5,6 @@
   import SortableArray from 'src/helpers/SortableArray.js'
 
   // TODO:
-  // 1) Colors for muated bars
   // 2) Play sound on each iteration
   // 3) Add other algorithms
 
@@ -97,7 +96,6 @@
 <style>
   button {
     padding: .5rem 1rem;
-    color: var(--bg-color);
     font-weight: bold;
     cursor: pointer;
     flex: 1;
