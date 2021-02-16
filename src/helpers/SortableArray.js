@@ -1,4 +1,12 @@
-import { SORT_TYPE_QUICK, SORT_TYPE_BUBBLE } from 'src/constants.js'
+import {
+  SORT_TYPE_QUICK,
+  SORT_TYPE_BUBBLE,
+  SELECTED_ELEMENT_STATUS,
+  COMPARED_ELEMENT_STATUS,
+  DEFAULT_ELEMENT_STATUS,
+  PIVOT_ELEMENT_STATUS
+} from 'src/constants.js'
+import { deepClone } from 'src/utils.js'
 
 export default class SortableArray {
   constructor (array, sortType) {
@@ -22,31 +30,33 @@ export default class SortableArray {
   }
 
   bubble = () => {
-    const arr = [...this.array]
-    let swapped = false
+    const arr = deepClone(this.array)
 
     for (let i = 1; i < arr.length - 1; i++) {
-      swapped = false
-
       for (let j = 0; j < arr.length - i; j++) {
-        if (arr[j + 1] < arr[j]) {
+        this.markMany(arr, [
+          { index: j + 1, status: COMPARED_ELEMENT_STATUS },
+          { index: j, status: SELECTED_ELEMENT_STATUS }
+        ])
+
+        if (arr[j + 1].value < arr[j].value) {
           ;[arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
-          swapped = true
+
+          this.markMany(arr, [
+            { index: j + 1, status: SELECTED_ELEMENT_STATUS },
+            { index: j, status: COMPARED_ELEMENT_STATUS }
+          ])
         }
       }
 
       this.saveStep(arr)
-
-      if (!swapped) {
-        return arr
-      }
     }
 
     this.saveSortedArray(arr)
   }
 
   quick = () => {
-    const arr = [...this.array]
+    const arr = deepClone(this.array)
 
     // Creating an array that we'll use as a stack, using the push() and pop() functions
     const stack = []
@@ -62,7 +72,7 @@ export default class SortableArray {
       const end = stack.pop()
       const start = stack.pop()
         
-      const pivotIndex = partition(arr, start, end)
+      const pivotIndex = this.partition(arr, start, end)
       
       // If there are unsorted elements to the "left" of the pivot,
       // we add that subarray to the stack so we can sort it later
@@ -84,29 +94,53 @@ export default class SortableArray {
     this.saveSortedArray(arr)
   }
 
-  saveSortedArray= arr => {
-    this.sortedArray = [...arr]
+  markMany = (arr, elements) => {
+    const clone = deepClone(arr)
+    for (const el of elements) {
+      clone[el.index].status = el.status
+    }
+    this.saveStep(clone)
+  }
+
+  saveSortedArray = arr => {
+    this.sortedArray = deepClone(arr)
   }
 
   saveStep = arr => {
-    this.history.push([...arr])
+    this.history.push(deepClone(arr))
   }
-}
 
-function partition (arr, start, end){
-  // Taking the last element as the pivot
-  const pivotValue = arr[end];
-  let pivotIndex = start; 
-  for (let i = start; i < end; i++) {
-    if (arr[i] < pivotValue) {
-      // Swapping elements
-      [arr[i], arr[pivotIndex]] = [arr[pivotIndex], arr[i]];
-      // Moving to next element
-      pivotIndex++;
-    }
-  }
+  partition = (arr, start, end) => {
+    // Taking the last element as the pivot
+    const pivotEl = arr[end];
+
+    let pivotIndex = start
+
+    for (let i = start; i < end; i++) {
+      
+      this.markMany(arr, [
+        { index: end, status: PIVOT_ELEMENT_STATUS },
+        { index: pivotIndex, status: COMPARED_ELEMENT_STATUS },
+        { index: i, status: SELECTED_ELEMENT_STATUS }
+      ])
   
-  // Putting the pivot value in the middle
-  [arr[pivotIndex], arr[end]] = [arr[end], arr[pivotIndex]] 
-  return pivotIndex;
+      if (arr[i].value < pivotEl.value) {
+        // Swapping elements
+        ;[arr[i], arr[pivotIndex]] = [arr[pivotIndex], arr[i]]
+
+        this.markMany(arr, [
+          { index: end, status: PIVOT_ELEMENT_STATUS },
+          { index: pivotIndex, status: SELECTED_ELEMENT_STATUS },
+          { index: i, status: COMPARED_ELEMENT_STATUS }
+        ])
+
+        // Moving to next element
+        pivotIndex++
+      }
+    }
+
+    ;[arr[pivotIndex], arr[end]] = [arr[end], arr[pivotIndex]]
+
+    return pivotIndex
+  }
 }

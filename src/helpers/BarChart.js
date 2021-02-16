@@ -1,3 +1,5 @@
+import { ELEMENT_COLORS_BY_STATUS } from 'src/constants.js'
+
 export default class BarChart {
   constructor (opts) {
     this.options = opts
@@ -7,10 +9,7 @@ export default class BarChart {
   }
 
   draw = () => {
-    let maxValue = 0;
-    for (let categ in this.options.data){
-        maxValue = Math.max(maxValue, this.options.data[categ])
-    }
+    const maxValue = Math.max(...this.options.data.map(el => el.value))
 
     const canvasActualHeight = this.canvas.height - this.options.padding * 2
     const canvasActualWidth = this.canvas.width - this.options.padding * 2
@@ -39,21 +38,20 @@ export default class BarChart {
 
     //drawing the bars
     let barIndex = 0
-    const numberOfBars = Object.keys(this.options.data).length
+    const numberOfBars = this.options.data.length
     const barSize = (canvasActualWidth / numberOfBars)
 
-    for (let categ in this.options.data) {
-        const val = this.options.data[categ]
-        const barHeight = Math.round(canvasActualHeight * val / maxValue)
-        this.drawBar(
-            this.options.padding + barIndex * barSize,
-            this.canvas.height - barHeight - this.options.padding,
-            barSize - 3,
-            barHeight,
-            this.colors.main
-        )
+    for (const el of this.options.data) {
+      const barHeight = Math.round(canvasActualHeight * el.value / maxValue)
+      this.drawBar(
+        this.options.padding + barIndex * barSize,
+        this.canvas.height - barHeight - this.options.padding,
+        barSize - 3,
+        barHeight,
+        ELEMENT_COLORS_BY_STATUS[el.status]
+      )
 
-        barIndex++
+      barIndex++
     }
   }
 

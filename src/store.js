@@ -4,7 +4,7 @@ import { SORT_TYPE_OPTS } from 'src/constants.js'
 
 const DEFAULT_ELEMENTS_COUNT = 50
 const DEFAULT_MAX_ELEMENT_VALUE = 150
-const DEFAULT_DRAW_DELAY = 150
+const DEFAULT_DRAW_DELAY = 200
 
 export const screenInfo = writable(getScreenInfo(DEFAULT_ELEMENTS_COUNT, DEFAULT_MAX_ELEMENT_VALUE))
 

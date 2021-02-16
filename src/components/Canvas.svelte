@@ -17,7 +17,7 @@
 
   function drawCanvas (items) {
     if (!canvasRef) return
- 
+
     const ctx = canvasRef.getContext('2d')
     ctx.clearRect(0, 0, canvasRef.width, canvasRef.height);
 
