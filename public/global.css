@@ -1,6 +1,6 @@
 :root {
-	--color: #333;
-	--bg-color: #fff8f4;
+	--color: #fff8f4;
+	--bg-color: #333;
 	--blue: #33A9E0;
 }
 
@@ -32,11 +32,6 @@ select, input, button {
 
 select:hover, input:hover, button:hover {
 	opacity: .8;
-}
-
-.dark {
-	--color: #fff8f4;
-	--bg-color: #333;
 }
 
 .github-link {
