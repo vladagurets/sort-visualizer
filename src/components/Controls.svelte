@@ -7,6 +7,8 @@
   // TODO:
   // 2) Play sound on each iteration
   // 3) Add other algorithms
+  // 4) Metatags + favicon
+  // 5) readme
 
   $: ({
     elementsCount,
