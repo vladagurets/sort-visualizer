@@ -172,7 +172,7 @@
     </div>
     <div class="flex form-item">
       <label for="delay">Delay:</label>
-      <input name="delay" type="range" min="100" max="1000" value={$gameSettings.drawDelay} on:change={onDelayChange}>
+      <input name="delay" type="range" min="10" max="1000" value={$gameSettings.drawDelay} on:change={onDelayChange}>
     </div>
   </div>
 </div>

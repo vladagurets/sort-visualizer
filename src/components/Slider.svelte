@@ -8,7 +8,7 @@
   }
 
   function onChange ({ target: { valueAsNumber }}) {
-    const array = sortableArray.history[stepIndex]
+    const array = sortableArray.history[stepIndex - 1]
     dislayingArray.set(array)
 
     gameSettings.set({
