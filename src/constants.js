@@ -6,8 +6,8 @@ export const SORT_TYPE_INSERT = 'insertion'
 export const SORT_TYPE_OPTS = [
   { value: SORT_TYPE_QUICK, label: 'Quicksort' },
   { value: SORT_TYPE_BUBBLE, label: 'Bubble sort' },
-  { value: SORT_TYPE_MERGE, label: 'Merge sort' },
-  { value: SORT_TYPE_INSERT, label: 'Insertion sort' }
+  // { value: SORT_TYPE_MERGE, label: 'Merge sort' },
+  // { value: SORT_TYPE_INSERT, label: 'Insertion sort' }
 ]
 
 export const SELECTED_ELEMENT_STATUS = 's'
